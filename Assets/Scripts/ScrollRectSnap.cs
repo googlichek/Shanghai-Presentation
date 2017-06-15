@@ -47,7 +47,7 @@ public class ScrollRectSnap : MonoBehaviour
 
 		if (!_dragging)
 		{
-			LerpToImage(_currentImage*-_distanceBetweenImages);
+			LerpToImage(_currentImage * -_distanceBetweenImages);
 		}
 	}
 

@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 136418498}
   m_Layer: 5
   m_Name: MainInfo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 147790642}
   m_Layer: 5
   m_Name: MainInfo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -406,7 +406,7 @@ GameObject:
   - component: {fileID: 174443727}
   m_Layer: 5
   m_Name: Slide 003
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -590,7 +590,7 @@ GameObject:
   - component: {fileID: 185898589}
   m_Layer: 5
   m_Name: LogoImage
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -774,7 +774,7 @@ GameObject:
   - component: {fileID: 347620955}
   m_Layer: 5
   m_Name: Logo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1022,7 +1022,7 @@ GameObject:
   - component: {fileID: 491796767}
   m_Layer: 5
   m_Name: Slide 000
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1131,7 +1131,7 @@ GameObject:
   - component: {fileID: 527863602}
   m_Layer: 5
   m_Name: Logo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1282,7 +1282,7 @@ GameObject:
   - component: {fileID: 711408191}
   m_Layer: 5
   m_Name: LogoImage
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1432,7 +1432,7 @@ GameObject:
   - component: {fileID: 841589424}
   m_Layer: 5
   m_Name: LogoImage
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1722,7 +1722,7 @@ GameObject:
   - component: {fileID: 887567186}
   m_Layer: 5
   m_Name: MainInfo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1790,7 +1790,7 @@ GameObject:
   - component: {fileID: 999785378}
   m_Layer: 5
   m_Name: Slide 005
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1957,7 +1957,7 @@ GameObject:
   - component: {fileID: 1087511517}
   m_Layer: 5
   m_Name: Slide 002
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2061,7 +2061,7 @@ GameObject:
   - component: {fileID: 1153260380}
   m_Layer: 5
   m_Name: Logo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2130,7 +2130,7 @@ GameObject:
   - component: {fileID: 1160838355}
   m_Layer: 5
   m_Name: Slide 001
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2268,7 +2268,7 @@ GameObject:
   - component: {fileID: 1240623530}
   m_Layer: 5
   m_Name: MainInfo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2351,7 +2351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2a81cec4ee65e449e3a8ec6f4db173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Controller: {fileID: 1273484312}
 --- !u!224 &1245792502
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2742,7 +2741,7 @@ GameObject:
   - component: {fileID: 1404142389}
   m_Layer: 5
   m_Name: Logo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3233,7 +3232,7 @@ GameObject:
   - component: {fileID: 1685434430}
   m_Layer: 5
   m_Name: Logo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3302,7 +3301,7 @@ GameObject:
   - component: {fileID: 1706814709}
   m_Layer: 5
   m_Name: LogoImage
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3370,7 +3369,7 @@ GameObject:
   - component: {fileID: 1756973988}
   m_Layer: 5
   m_Name: LogoImage
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3636,7 +3635,7 @@ GameObject:
   - component: {fileID: 1867472761}
   m_Layer: 5
   m_Name: LogoImage
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3704,7 +3703,7 @@ GameObject:
   - component: {fileID: 1914538954}
   m_Layer: 5
   m_Name: Slide 004
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3885,7 +3884,7 @@ GameObject:
   - component: {fileID: 1972407387}
   m_Layer: 5
   m_Name: Logo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4104,7 +4103,7 @@ GameObject:
   - component: {fileID: 1981716193}
   m_Layer: 5
   m_Name: MainInfo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4275,7 +4274,7 @@ GameObject:
   - component: {fileID: 2053717401}
   m_Layer: 5
   m_Name: MainInfo
-  m_TagString: Untagged
+  m_TagString: SlideContent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
