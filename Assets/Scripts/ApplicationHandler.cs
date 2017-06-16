@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,19 +71,24 @@ public class ApplicationHandler : MonoBehaviour
 			ShowButtons(_currentButtonScreenIndex);
 			ColorizeDots(_currentButtonScreenIndex);
 
-			int i = 0;
-			foreach (GameObject element in MenuElements)
-			{
-				element.transform.DOKill();
-				element.transform.DOLocalMoveY(MenuButtonEndPosition, 1.5f).SetEase(Ease.OutBack).SetDelay(1.5f + 0.2f * i);
-				i++;
-			}
+			MoveMenuButtons(MenuButtonEndPosition);
 		}
 	}
 
 	public void OpenSlide(int index)
 	{
-		
+		HideButtons(_currentButtonScreenIndex);
+		MoveMenuButtons(MenuButtonStartPosition);
+
+		MoveSlideButtons(SlideButtonEndPosition, SlideButtonBackEndPosition);
+	}
+
+	public void BackToMenu()
+	{
+		ShowButtons(_currentButtonScreenIndex);
+		MoveMenuButtons(MenuButtonEndPosition);
+
+		MoveSlideButtons(SlideButtonStartPosition, SlideButtonBackStartPosition);
 	}
 
 	public void SwitchButtonScreen(bool direction)
@@ -117,38 +123,60 @@ public class ApplicationHandler : MonoBehaviour
 		}
 	}
 
+	private void MoveSlideButtons(int slideArrowPosition, int slideBackPosition)
+	{
+		SlideButtonLeft.DOKill();
+		SlideButtonRight.DOKill();
+		SlideButtonBack.DOKill();
+
+		SlideButtonLeft.transform.DOLocalMoveX(-slideArrowPosition, 1.5f).SetEase(Ease.OutBack).SetDelay(0.5f);
+		SlideButtonRight.transform.DOLocalMoveX(slideArrowPosition, 1.5f).SetEase(Ease.OutBack).SetDelay(0.5f);
+		SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, 1.5f).SetEase(Ease.OutBack).SetDelay(0.5f);
+	}
+
+	private void MoveMenuButtons(int position)
+	{
+		int i = 0;
+		foreach (GameObject element in MenuElements)
+		{
+			element.transform.DOKill();
+			element.transform.DOLocalMoveY(position, 1.5f).SetEase(Ease.OutBack).SetDelay(1f + 0.2f*i);
+			i++;
+		}
+	}
+
 	private void HideButtons(int index)
 	{
 		ButtonScreens[index].transform.DOKill();
-		ButtonScreens[index].transform.DOScale(3, 2f).SetEase(Ease.OutQuint);
+		ButtonScreens[index].transform.DOScale(3, 1.5f).SetEase(Ease.OutQuint);
 
 		foreach (Transform child in ButtonScreens[index].transform)
 		{
 			child.DOKill();
-			child.GetComponent<Image>().DOFade(0, 2f).SetEase(Ease.OutQuint);
+			child.GetComponent<Image>().DOFade(0, 1.5f).SetEase(Ease.OutQuint);
 
 			foreach (Transform subChild in child.transform)
 			{
 				subChild.DOKill();
-				subChild.GetComponent<Image>().DOFade(0, 2f).SetEase(Ease.OutQuint);
+				subChild.GetComponent<Image>().DOFade(0, 1.5f).SetEase(Ease.OutQuint);
 			}
 		}
 
-		ButtonScreens[index].transform.DOScale(0, 0).SetDelay(2.5f);
+		StartCoroutine(FinishHidingButtons(index));
 	}
 
 	private void ShowButtons(int index)
 	{
-		ButtonScreens[index].transform.DOScale(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
+		ButtonScreens[index].transform.DOScale(1, 1.5f).SetEase(Ease.OutQuint).SetDelay(0.5f);
 		foreach (Transform child in ButtonScreens[index].transform)
 		{
 			child.DOKill();
-			child.GetComponent<Image>().DOFade(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
+			child.GetComponent<Image>().DOFade(1, 1.5f).SetEase(Ease.OutQuint).SetDelay(0.5f);
 
 			foreach (Transform subChild in child.transform)
 			{
 				subChild.DOKill();
-				subChild.GetComponent<Image>().DOFade(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
+				subChild.GetComponent<Image>().DOFade(1, 1.5f).SetEase(Ease.OutQuint).SetDelay(0.5f);
 			}
 		}
 	}
@@ -159,14 +187,19 @@ public class ApplicationHandler : MonoBehaviour
 		{
 			if (MenuElements.IndexOf(element) != index + 1)
 			{
-				element.transform.DOKill();
 				element.GetComponent<Image>().DOColor(Color.white, 1);
 			}
 			else
 			{
-				element.transform.DOKill();
 				element.GetComponent<Image>().DOColor(Color.white * 0.7f, 1);
 			}
 		}
 	}
+
+	private IEnumerator FinishHidingButtons(int index)
+	{
+		yield return new WaitForSeconds(1f);
+		ButtonScreens[index].transform.DOKill(true);
+		ButtonScreens[index].transform.DOScale(0, 0);
+	} 
 }
