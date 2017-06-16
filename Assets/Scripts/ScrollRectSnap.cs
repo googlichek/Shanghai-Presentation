@@ -21,7 +21,7 @@ public class ScrollRectSnap : MonoBehaviour
 			Panel.localPosition = new Vector3(bottomBoundry, Panel.localPosition.y);
 		}
 
-		int topBoundry = -(ImageContainer.Length - 1)*1920;
+		int topBoundry = -(ImageContainer.Length - 1) * 1920;
 		if (Panel.localPosition.x < topBoundry)
 		{
 			Panel.localPosition = new Vector3(topBoundry, Panel.localPosition.y);

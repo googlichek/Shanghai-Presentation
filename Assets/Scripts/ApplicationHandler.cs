@@ -86,4 +86,9 @@ public class ApplicationHandler : MonoBehaviour
 			}
 		}
 	}
+
+	public void OpenSlide(int index)
+	{
+		
+	}
 }
