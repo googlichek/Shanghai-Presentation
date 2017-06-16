@@ -18,8 +18,18 @@ public class ApplicationHandler : MonoBehaviour
 	public int MenuButtonStartPosition;
 	public int MenuButtonEndPosition;
 
+	public int SlideButtonStartPosition;
+	public int SlideButtonEndPosition;
+
+	public int SlideButtonBackStartPosition;
+	public int SlideButtonBackEndPosition;
+
+	private int _currentButtonScreenIndex;
+
 	void Start()
 	{
+		_currentButtonScreenIndex = 0;
+
 		foreach (GameObject screen in ButtonScreens)
 		{
 			screen.transform.DOKill();
@@ -57,31 +67,14 @@ public class ApplicationHandler : MonoBehaviour
 				}
 			}
 
-			ButtonScreens[0].transform.DOKill();
-			ButtonScreens[0].transform.DOScale(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
-			foreach (Transform child in ButtonScreens[0].transform)
-			{
-				child.DOKill();
-				child.GetComponent<Image>().DOFade(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
-
-				foreach (Transform subChild in child.transform)
-				{
-					subChild.DOKill();
-					subChild.GetComponent<Image>().DOFade(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
-				}
-			}
+			ShowButtons(_currentButtonScreenIndex);
+			ColorizeDots(_currentButtonScreenIndex);
 
 			int i = 0;
 			foreach (GameObject element in MenuElements)
 			{
 				element.transform.DOKill();
 				element.transform.DOLocalMoveY(MenuButtonEndPosition, 1.5f).SetEase(Ease.OutBack).SetDelay(1.5f + 0.2f * i);
-
-				if (i == 1)
-				{
-					element.GetComponent<Image>().DOColor(Color.white * 0.7f, 2f);
-				}
-
 				i++;
 			}
 		}
@@ -90,5 +83,90 @@ public class ApplicationHandler : MonoBehaviour
 	public void OpenSlide(int index)
 	{
 		
+	}
+
+	public void SwitchButtonScreen(bool direction)
+	{
+		if (direction)
+		{
+			if (_currentButtonScreenIndex == ButtonScreens.Count - 1)
+			{
+				return;
+			}
+
+			HideButtons(_currentButtonScreenIndex);
+
+			_currentButtonScreenIndex++;
+
+			ShowButtons(_currentButtonScreenIndex);
+			ColorizeDots(_currentButtonScreenIndex);
+		}
+		else
+		{
+			if (_currentButtonScreenIndex == 0)
+			{
+				return;
+			}
+
+			HideButtons(_currentButtonScreenIndex);
+
+			_currentButtonScreenIndex--;
+
+			ShowButtons(_currentButtonScreenIndex);
+			ColorizeDots(_currentButtonScreenIndex);
+		}
+	}
+
+	private void HideButtons(int index)
+	{
+		ButtonScreens[index].transform.DOKill();
+		ButtonScreens[index].transform.DOScale(3, 2f).SetEase(Ease.OutQuint);
+
+		foreach (Transform child in ButtonScreens[index].transform)
+		{
+			child.DOKill();
+			child.GetComponent<Image>().DOFade(0, 2f).SetEase(Ease.OutQuint);
+
+			foreach (Transform subChild in child.transform)
+			{
+				subChild.DOKill();
+				subChild.GetComponent<Image>().DOFade(0, 2f).SetEase(Ease.OutQuint);
+			}
+		}
+
+		ButtonScreens[index].transform.DOScale(0, 0).SetDelay(2.5f);
+	}
+
+	private void ShowButtons(int index)
+	{
+		ButtonScreens[index].transform.DOScale(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
+		foreach (Transform child in ButtonScreens[index].transform)
+		{
+			child.DOKill();
+			child.GetComponent<Image>().DOFade(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
+
+			foreach (Transform subChild in child.transform)
+			{
+				subChild.DOKill();
+				subChild.GetComponent<Image>().DOFade(1, 2).SetEase(Ease.OutQuint).SetDelay(1);
+			}
+		}
+	}
+
+	private void ColorizeDots(int index)
+	{
+		foreach (GameObject element in MenuElements)
+		{
+			if (MenuElements.IndexOf(element) != index + 1)
+			{
+				element.transform.DOKill();
+				element.GetComponent<Image>().DOColor(Color.white, 1);
+			}
+			else
+			{
+				element.transform.DOKill();
+				element.GetComponent<Image>().DOColor(Color.white * 0.7f, 1);
+			}
+		}
 	}
 }
