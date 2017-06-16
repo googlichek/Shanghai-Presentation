@@ -71,24 +71,24 @@ public class ApplicationHandler : MonoBehaviour
 			ShowButtons(_currentButtonScreenIndex);
 			ColorizeDots(_currentButtonScreenIndex);
 
-			MoveMenuButtons(MenuButtonEndPosition);
+			MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
 		}
 	}
 
 	public void OpenSlide(int index)
 	{
 		HideButtons(_currentButtonScreenIndex);
-		MoveMenuButtons(MenuButtonStartPosition);
+		MoveMenuButtons(MenuButtonStartPosition, Ease.InBack);
 
-		MoveSlideButtons(SlideButtonEndPosition, SlideButtonBackEndPosition);
+		MoveSlideButtons(SlideButtonEndPosition, SlideButtonBackEndPosition, Ease.OutBack);
 	}
 
 	public void BackToMenu()
 	{
 		ShowButtons(_currentButtonScreenIndex);
-		MoveMenuButtons(MenuButtonEndPosition);
+		MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
 
-		MoveSlideButtons(SlideButtonStartPosition, SlideButtonBackStartPosition);
+		MoveSlideButtons(SlideButtonStartPosition, SlideButtonBackStartPosition, Ease.InBack);
 	}
 
 	public void SwitchButtonScreen(bool direction)
@@ -123,24 +123,24 @@ public class ApplicationHandler : MonoBehaviour
 		}
 	}
 
-	private void MoveSlideButtons(int slideArrowPosition, int slideBackPosition)
+	private void MoveSlideButtons(int slideArrowPosition, int slideBackPosition, Ease ease)
 	{
 		SlideButtonLeft.DOKill();
 		SlideButtonRight.DOKill();
 		SlideButtonBack.DOKill();
 
-		SlideButtonLeft.transform.DOLocalMoveX(-slideArrowPosition, 1.5f).SetEase(Ease.OutBack).SetDelay(0.5f);
-		SlideButtonRight.transform.DOLocalMoveX(slideArrowPosition, 1.5f).SetEase(Ease.OutBack).SetDelay(0.5f);
-		SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, 1.5f).SetEase(Ease.OutBack).SetDelay(0.5f);
+		SlideButtonLeft.transform.DOLocalMoveX(-slideArrowPosition, 1.5f).SetEase(ease).SetDelay(0.5f);
+		SlideButtonRight.transform.DOLocalMoveX(slideArrowPosition, 1.5f).SetEase(ease).SetDelay(0.5f);
+		SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, 1.5f).SetEase(ease).SetDelay(0.5f);
 	}
 
-	private void MoveMenuButtons(int position)
+	private void MoveMenuButtons(int position, Ease ease)
 	{
 		int i = 0;
 		foreach (GameObject element in MenuElements)
 		{
 			element.transform.DOKill();
-			element.transform.DOLocalMoveY(position, 1.5f).SetEase(Ease.OutBack).SetDelay(1f + 0.2f*i);
+			element.transform.DOLocalMoveY(position, 1.5f).SetEase(ease).SetDelay(1f + 0.2f*i);
 			i++;
 		}
 	}
