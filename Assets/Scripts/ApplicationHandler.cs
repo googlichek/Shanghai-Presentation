@@ -8,6 +8,8 @@ public class ApplicationHandler : MonoBehaviour
 	public List<Image> SlidePieces = new List<Image>();
 	public List<Image> ButtonPieces = new List<Image>();
 
+	public List<GameObject> Slides; 
+
 	void Start()
 	{
 		List<GameObject> temp = new List<GameObject>(GameObject.FindGameObjectsWithTag("SlideContent"));
@@ -26,8 +28,8 @@ public class ApplicationHandler : MonoBehaviour
 
 		foreach (var image in SlidePieces)
 		{
-			image.DOFade(0, 0);
-			image.transform.DOScale(0, 0);
+			//image.DOFade(0, 0);
+			//image.transform.DOScale(0, 0);
 		}
 	}
 }
