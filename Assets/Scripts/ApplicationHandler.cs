@@ -81,6 +81,22 @@ public class ApplicationHandler : MonoBehaviour
 		TweenSlide(1, _timing, Ease.OutQuint);
 	}
 
+	public void LeftArrow()
+	{
+		float x = ScrollerContent.transform.localPosition.x;
+
+		ScrollerContent.transform.DOKill();
+		ScrollerContent.transform.DOLocalMoveX(x + _screenWidth, _timing).SetEase(Ease.OutBack);
+	}
+
+	public void RightArrow()
+	{
+		float x = ScrollerContent.transform.localPosition.x;
+
+		ScrollerContent.transform.DOKill();
+		ScrollerContent.transform.DOLocalMoveX(x - _screenWidth, _timing).SetEase(Ease.OutBack);
+	}
+
 	public void BackToMenu()
 	{
 		ShowButtons(_currentButtonScreenIndex);
@@ -149,16 +165,18 @@ public class ApplicationHandler : MonoBehaviour
 
 	private void UntweenSlide(float amount, float time, Ease ease)
 	{
+		time -= 0.2f;
+
 		foreach (GameObject slide in Slides)
 		{
 			slide.transform.DOKill();
 			slide.GetComponent<Image>().DOFade(amount, time).SetEase(ease);
-			slide.transform.DOScale(3, time).SetEase(ease);
+			slide.transform.DOScale(1.1f, time).SetEase(ease);
 
 			foreach (Transform child in slide.transform)
 			{
 				child.DOKill();
-				child.DOScale(3, time).SetEase(ease);
+				child.DOScale(1.1f, time).SetEase(ease);
 				child.GetComponent<Image>().DOFade(amount, time).SetEase(ease);
 
 				child.DOScale(amount, 0).SetDelay(time + 0.2f);
