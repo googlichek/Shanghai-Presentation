@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
 using UnityEngine.UI;
 
 public class ApplicationHandler : MonoBehaviour
@@ -88,7 +89,7 @@ public class ApplicationHandler : MonoBehaviour
 
 		MoveSlideButtons(SlideButtonStartPosition, SlideButtonBackStartPosition, Ease.InBack);
 
-		TweenSlide(0, 0, Ease.InQuint);
+		UntweenSlide(0, _timing, Ease.OutQuint);
 	}
 
 	public void SwitchButtonScreen(bool direction)
@@ -146,15 +147,42 @@ public class ApplicationHandler : MonoBehaviour
 		}
 	}
 
+	private void UntweenSlide(float amount, float time, Ease ease)
+	{
+		foreach (GameObject slide in Slides)
+		{
+			slide.transform.DOKill();
+			slide.GetComponent<Image>().DOFade(amount, time).SetEase(ease);
+			slide.transform.DOScale(3, time).SetEase(ease);
+
+			foreach (Transform child in slide.transform)
+			{
+				child.DOKill();
+				child.DOScale(3, time).SetEase(ease);
+				child.GetComponent<Image>().DOFade(amount, time).SetEase(ease);
+
+				child.DOScale(amount, 0).SetDelay(time + 0.2f);
+
+				foreach (Transform subChild in child.transform)
+				{
+					subChild.DOKill();
+					subChild.GetComponent<Image>().DOFade(amount, time).SetEase(ease);
+				}
+			}
+
+			slide.transform.DOScale(amount, 0).SetDelay(time + 0.2f);
+		}
+	}
+
 	private void MoveSlideButtons(int slideArrowPosition, int slideBackPosition, Ease ease)
 	{
 		SlideButtonLeft.DOKill();
 		SlideButtonRight.DOKill();
 		SlideButtonBack.DOKill();
 
-		SlideButtonLeft.transform.DOLocalMoveX(-slideArrowPosition, _timing).SetEase(ease);
-		SlideButtonRight.transform.DOLocalMoveX(slideArrowPosition, _timing).SetEase(ease);
-		SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, _timing).SetEase(ease);
+		SlideButtonLeft.transform.DOLocalMoveX(-slideArrowPosition, _timing - 0.5f).SetEase(ease);
+		SlideButtonRight.transform.DOLocalMoveX(slideArrowPosition, _timing - 0.5f).SetEase(ease);
+		SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, _timing - 0.5f).SetEase(ease);
 	}
 
 	private void MoveMenuButtons(int position, Ease ease)
