@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class ScrollRectSnap : MonoBehaviour
 {
+	public static int CurrentImage;
+
 	public RectTransform Panel;
 	public Image[] ImageContainer;
 	public RectTransform Center;
@@ -11,7 +13,6 @@ public class ScrollRectSnap : MonoBehaviour
 	private float[] _distanceToTheCenters;
 	private bool _dragging = false;
 	private int _distanceBetweenImages;
-	private int _currentImage;
 
 	private void Update()
 	{
@@ -41,13 +42,13 @@ public class ScrollRectSnap : MonoBehaviour
 		{
 			if (Math.Abs(minDistance - _distanceToTheCenters[i]) < 1)
 			{
-				_currentImage = i;
+				CurrentImage = i;
 			}
 		}
 
 		if (!_dragging)
 		{
-			LerpToImage(_currentImage * -_distanceBetweenImages);
+			LerpToImage(CurrentImage * -_distanceBetweenImages);
 		}
 	}
 

@@ -91,30 +91,31 @@
 				return OUT;
 			}
 
-	sampler2D _MainTex;
-	sampler2D _UvTex;
+			sampler2D _MainTex;
+			sampler2D _UvTex;
 
-	fixed4 frag(v2f IN) : SV_Target
-	{
-		float2 c = tex2D(_MainTex, IN.texcoord).ra;
-		c.x = clamp(c.x, 0.002, 0.998);
-		c.x += _SinTime.y;
+			fixed4 frag(v2f IN) : SV_Target
+			{
+				float2 c = tex2D(_MainTex, IN.texcoord).ra;
+				c.x = clamp(c.x, 0.002, 0.998);
+				c.x += _SinTime.y;
 
-		half4 color = (tex2D(_UvTex, float2(c.x, 1)) + _TextureSampleAdd) * IN.color;
+				half4 color = (tex2D(_UvTex, float2(c.x, 1)) + _TextureSampleAdd) * IN.color;
 
-		color.a *= (c.y* IN.color.a);
+				color.a *= (c.y* IN.color.a);
 
 
 
-		color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
+				color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
 
-#ifdef UNITY_UI_ALPHACLIP
-		clip(color.a - 0.001);
-#endif
+				#ifdef UNITY_UI_ALPHACLIP
+				clip(color.a - 0.001);
+				#endif
 
-		return color;
-	}
+				return color;
+			}
+
 		ENDCG
-	}
+		}
 	}
 }

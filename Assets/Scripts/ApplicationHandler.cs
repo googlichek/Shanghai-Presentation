@@ -31,6 +31,8 @@ public class ApplicationHandler : MonoBehaviour
 	public Image BannerBackground;
 	public Image BannerTitle;
 
+	public Color DotColor = new Color(0.3f, 0.7f, 0.7f);
+
 	private int _currentButtonScreenIndex;
 
 	private int _screenWidth = 1920;
@@ -81,22 +83,6 @@ public class ApplicationHandler : MonoBehaviour
 		TweenSlide(1, _timing, Ease.OutQuint);
 	}
 
-	public void LeftArrow()
-	{
-		float x = ScrollerContent.transform.localPosition.x;
-
-		ScrollerContent.transform.DOKill();
-		ScrollerContent.transform.DOLocalMoveX(x + _screenWidth, _timing).SetEase(Ease.OutBack);
-	}
-
-	public void RightArrow()
-	{
-		float x = ScrollerContent.transform.localPosition.x;
-
-		ScrollerContent.transform.DOKill();
-		ScrollerContent.transform.DOLocalMoveX(x - _screenWidth, _timing).SetEase(Ease.OutBack);
-	}
-
 	public void BackToMenu()
 	{
 		ShowButtons(_currentButtonScreenIndex);
@@ -106,6 +92,32 @@ public class ApplicationHandler : MonoBehaviour
 		MoveSlideButtons(SlideButtonStartPosition, SlideButtonBackStartPosition, Ease.InBack);
 
 		UntweenSlide(0, _timing, Ease.OutQuint);
+	}
+
+	public void LeftArrow()
+	{
+		if (ScrollRectSnap.CurrentImage == 0)
+		{
+			return;
+		}
+
+		float x = ScrollerContent.transform.localPosition.x;
+
+		ScrollerContent.transform.DOKill();
+		ScrollerContent.transform.DOLocalMoveX(x + _screenWidth, _timing).SetEase(Ease.OutBack);
+	}
+
+	public void RightArrow()
+	{
+		if (ScrollRectSnap.CurrentImage == Slides.Count - 1)
+		{
+			return;
+		}
+
+		float x = ScrollerContent.transform.localPosition.x;
+
+		ScrollerContent.transform.DOKill();
+		ScrollerContent.transform.DOLocalMoveX(x - _screenWidth, _timing).SetEase(Ease.OutBack);
 	}
 
 	public void SwitchButtonScreen(bool direction)
@@ -200,6 +212,7 @@ public class ApplicationHandler : MonoBehaviour
 
 		SlideButtonLeft.transform.DOLocalMoveX(-slideArrowPosition, _timing - 0.5f).SetEase(ease);
 		SlideButtonRight.transform.DOLocalMoveX(slideArrowPosition, _timing - 0.5f).SetEase(ease);
+
 		SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, _timing - 0.5f).SetEase(ease);
 	}
 
@@ -274,12 +287,34 @@ public class ApplicationHandler : MonoBehaviour
 		{
 			if (MenuElements.IndexOf(element) != index + 1)
 			{
-				element.GetComponent<Image>().DOColor(Color.white, 1);
+				element.GetComponent<Image>().DOColor(DotColor, 1);
 			}
 			else
 			{
-				element.GetComponent<Image>().DOColor(Color.white*0.7f, 1);
+				element.GetComponent<Image>().DOColor(Color.white, 1);
 			}
+		}
+	}
+
+	private void HandleSlideArrows()
+	{
+		SlideButtonLeft.DOKill();
+		SlideButtonRight.DOKill();
+
+		if (ScrollRectSnap.CurrentImage == 0)
+		{
+			SlideButtonLeft.transform.DOLocalMoveX(-SlideButtonStartPosition, _timing - 0.5f).SetEase(Ease.InBack);
+			SlideButtonRight.transform.DOLocalMoveX(SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.OutBack);
+		}
+		else if (ScrollRectSnap.CurrentImage == Slides.Count - 1)
+		{
+			SlideButtonLeft.transform.DOLocalMoveX(-SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.OutBack);
+			SlideButtonRight.transform.DOLocalMoveX(SlideButtonStartPosition, _timing - 0.5f).SetEase(Ease.InBack);
+		}
+		else
+		{
+			SlideButtonLeft.transform.DOLocalMoveX(-SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.OutBack);
+			SlideButtonRight.transform.DOLocalMoveX(SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.InBack);
 		}
 	}
 
