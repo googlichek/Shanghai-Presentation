@@ -8632,6 +8632,8 @@ MonoBehaviour:
   SlideButtonBackStartPosition: 1200
   SlideButtonBackEndPosition: 750
   ScrollerContent: {fileID: 525693686}
+  BannerBackground: {fileID: 2106891641}
+  BannerTitle: {fileID: 469474556}
 --- !u!224 &1245792502
 RectTransform:
   m_ObjectHideFlags: 0

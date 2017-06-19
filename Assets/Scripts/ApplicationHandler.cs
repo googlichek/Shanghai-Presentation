@@ -27,6 +27,9 @@ public class ApplicationHandler : MonoBehaviour
 
 	public GameObject ScrollerContent;
 
+	public Image BannerBackground;
+	public Image BannerTitle;
+
 	private int _currentButtonScreenIndex;
 
 	private int _screenWidth = 1920;
@@ -34,7 +37,7 @@ public class ApplicationHandler : MonoBehaviour
 	private float _timing = 1.5f;
 	private float _delay = 0.5f;
 
-	void Start()
+	private void Start()
 	{
 		_currentButtonScreenIndex = 0;
 
@@ -67,11 +70,12 @@ public class ApplicationHandler : MonoBehaviour
 	public void OpenSlide(int index)
 	{
 		HideButtons(_currentButtonScreenIndex);
+		HideBanner();
 		MoveMenuButtons(MenuButtonStartPosition, Ease.InBack);
 
 		MoveSlideButtons(SlideButtonEndPosition, SlideButtonBackEndPosition, Ease.OutBack);
 
-		ScrollerContent.transform.DOLocalMoveX(- index * _screenWidth, 0f);
+		ScrollerContent.transform.DOLocalMoveX(-index*_screenWidth, 0f);
 
 		TweenSlide(1, _timing, Ease.OutQuint);
 	}
@@ -79,6 +83,7 @@ public class ApplicationHandler : MonoBehaviour
 	public void BackToMenu()
 	{
 		ShowButtons(_currentButtonScreenIndex);
+		ShowBanner();
 		MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
 
 		MoveSlideButtons(SlideButtonStartPosition, SlideButtonBackStartPosition, Ease.InBack);
@@ -147,10 +152,6 @@ public class ApplicationHandler : MonoBehaviour
 		SlideButtonRight.DOKill();
 		SlideButtonBack.DOKill();
 
-		//SlideButtonLeft.transform.DOLocalMoveX(-slideArrowPosition, 1.5f).SetEase(ease).SetDelay(0.5f);
-		//SlideButtonRight.transform.DOLocalMoveX(slideArrowPosition, 1.5f).SetEase(ease).SetDelay(0.5f);
-		//SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, 1.5f).SetEase(ease).SetDelay(0.5f);
-
 		SlideButtonLeft.transform.DOLocalMoveX(-slideArrowPosition, _timing).SetEase(ease);
 		SlideButtonRight.transform.DOLocalMoveX(slideArrowPosition, _timing).SetEase(ease);
 		SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, _timing).SetEase(ease);
@@ -203,6 +204,24 @@ public class ApplicationHandler : MonoBehaviour
 		}
 	}
 
+	private void HideBanner()
+	{
+		BannerBackground.DOKill();
+		BannerTitle.DOKill();
+
+		BannerBackground.DOFade(0, _timing).SetEase(Ease.OutQuint);
+		BannerTitle.DOFade(0, _timing).SetEase(Ease.OutQuint);
+	}
+
+	private void ShowBanner()
+	{
+		BannerBackground.DOKill();
+		BannerTitle.DOKill();
+
+		BannerBackground.DOFade(1, _timing).SetEase(Ease.OutQuint);
+		BannerTitle.DOFade(1, _timing).SetEase(Ease.OutQuint);
+	}
+
 	private void ColorizeDots(int index)
 	{
 		foreach (GameObject element in MenuElements)
@@ -213,7 +232,7 @@ public class ApplicationHandler : MonoBehaviour
 			}
 			else
 			{
-				element.GetComponent<Image>().DOColor(Color.white * 0.7f, 1);
+				element.GetComponent<Image>().DOColor(Color.white*0.7f, 1);
 			}
 		}
 	}
@@ -223,5 +242,5 @@ public class ApplicationHandler : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		ButtonScreens[index].transform.DOKill(true);
 		ButtonScreens[index].transform.DOScale(0, 0);
-	} 
+	}
 }
