@@ -25,6 +25,8 @@ public class ApplicationHandler : MonoBehaviour
 	public int SlideButtonBackStartPosition;
 	public int SlideButtonBackEndPosition;
 
+	public GameObject ScrollerContent;
+
 	private int _currentButtonScreenIndex;
 
 	void Start()
@@ -67,12 +69,12 @@ public class ApplicationHandler : MonoBehaviour
 					subChild.GetComponent<Image>().DOFade(0, 0);
 				}
 			}
-
-			ShowButtons(_currentButtonScreenIndex);
-			ColorizeDots(_currentButtonScreenIndex);
-
-			MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
 		}
+
+		ShowButtons(_currentButtonScreenIndex);
+		ColorizeDots(_currentButtonScreenIndex);
+
+		MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
 	}
 
 	public void OpenSlide(int index)
@@ -81,6 +83,28 @@ public class ApplicationHandler : MonoBehaviour
 		MoveMenuButtons(MenuButtonStartPosition, Ease.InBack);
 
 		MoveSlideButtons(SlideButtonEndPosition, SlideButtonBackEndPosition, Ease.OutBack);
+
+		ScrollerContent.transform.DOLocalMoveX(-index * 1920, 0f);
+
+		foreach (GameObject slide in Slides)
+		{
+			slide.transform.DOKill();
+			slide.GetComponent<Image>().DOFade(1, 1).SetEase(Ease.OutQuint);
+			slide.transform.DOScale(1, 1).SetEase(Ease.OutQuint);
+
+			foreach (Transform child in slide.transform)
+			{
+				child.DOKill();
+				child.DOScale(1, 1).SetEase(Ease.OutQuint);
+				child.GetComponent<Image>().DOFade(1, 1).SetEase(Ease.OutQuint);
+
+				foreach (Transform subChild in child.transform)
+				{
+					subChild.DOKill();
+					subChild.GetComponent<Image>().DOFade(1, 1).SetEase(Ease.OutQuint);
+				}
+			}
+		}
 	}
 
 	public void BackToMenu()
