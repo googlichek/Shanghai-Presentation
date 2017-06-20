@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Assertions.Comparers;
 using UnityEngine.UI;
 
 public class ApplicationHandler : MonoBehaviour
@@ -34,15 +33,19 @@ public class ApplicationHandler : MonoBehaviour
 	public Color DotColor = new Color(0.3f, 0.7f, 0.7f);
 
 	private int _currentButtonScreenIndex;
+	private int _currentSlideIndex;
 
 	private int _screenWidth = 1920;
 
 	private float _timing = 1.5f;
 	private float _delay = 0.5f;
 
+	private bool _slideIsOpened = false;
+
 	private void Start()
 	{
 		_currentButtonScreenIndex = 0;
+		_currentSlideIndex = -1;
 
 		foreach (GameObject screen in ButtonScreens)
 		{
@@ -70,8 +73,24 @@ public class ApplicationHandler : MonoBehaviour
 		MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
 	}
 
+	private void LateUpdate()
+	{
+		if (!_slideIsOpened)
+		{
+			return;
+		}
+
+		if (_currentSlideIndex != ScrollRectSnap.CurrentImage)
+		{
+			_currentSlideIndex = ScrollRectSnap.CurrentImage;
+			HandleSlideArrows();
+		}
+	}
+
 	public void OpenSlide(int index)
 	{
+		_slideIsOpened = true;
+
 		HideButtons(_currentButtonScreenIndex);
 		HideBanner();
 		MoveMenuButtons(MenuButtonStartPosition, Ease.InBack);
@@ -85,6 +104,8 @@ public class ApplicationHandler : MonoBehaviour
 
 	public void BackToMenu()
 	{
+		_slideIsOpened = false;
+
 		ShowButtons(_currentButtonScreenIndex);
 		ShowBanner();
 		MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
@@ -301,21 +322,20 @@ public class ApplicationHandler : MonoBehaviour
 		SlideButtonLeft.DOKill();
 		SlideButtonRight.DOKill();
 
-		if (ScrollRectSnap.CurrentImage == 0)
+		if (_currentSlideIndex == 0)
 		{
 			SlideButtonLeft.transform.DOLocalMoveX(-SlideButtonStartPosition, _timing - 0.5f).SetEase(Ease.InBack);
-			SlideButtonRight.transform.DOLocalMoveX(SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.OutBack);
 		}
-		else if (ScrollRectSnap.CurrentImage == Slides.Count - 1)
+		else if (_currentSlideIndex == Slides.Count - 1)
 		{
-			SlideButtonLeft.transform.DOLocalMoveX(-SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.OutBack);
 			SlideButtonRight.transform.DOLocalMoveX(SlideButtonStartPosition, _timing - 0.5f).SetEase(Ease.InBack);
 		}
 		else
 		{
 			SlideButtonLeft.transform.DOLocalMoveX(-SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.OutBack);
-			SlideButtonRight.transform.DOLocalMoveX(SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.InBack);
+			SlideButtonRight.transform.DOLocalMoveX(SlideButtonEndPosition, _timing - 0.5f).SetEase(Ease.OutBack);
 		}
+		
 	}
 
 	private IEnumerator FinishHidingButtons(int index)
