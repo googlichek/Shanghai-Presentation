@@ -11,6 +11,7 @@ public class ApplicationHandler : MonoBehaviour
 	public List<Image> BannerPieces;
 
 	public List<GameObject> MenuElements;
+	public List<GameObject> SlideDots;
 
 	public Button SlideButtonLeft;
 	public Button SlideButtonRight;
@@ -24,6 +25,9 @@ public class ApplicationHandler : MonoBehaviour
 
 	public int SlideButtonBackStartPosition;
 	public int SlideButtonBackEndPosition;
+
+	public int SlideDotStartPosition;
+	public int SlideDotEndPosition;
 
 	public GameObject ScrollerContent;
 
@@ -68,7 +72,7 @@ public class ApplicationHandler : MonoBehaviour
 		TweenSlide(0, 0, Ease.InQuint);
 
 		ShowButtons(_currentButtonScreenIndex);
-		ColorizeDots(_currentButtonScreenIndex);
+		ColorizeMenueDots(_currentButtonScreenIndex);
 
 		MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
 	}
@@ -84,6 +88,7 @@ public class ApplicationHandler : MonoBehaviour
 		{
 			_currentSlideIndex = ScrollRectSnap.CurrentImage;
 			HandleSlideArrows();
+			ColorizeSlideDots();
 		}
 	}
 
@@ -93,9 +98,10 @@ public class ApplicationHandler : MonoBehaviour
 
 		HideButtons(_currentButtonScreenIndex);
 		HideBanner();
-		MoveMenuButtons(MenuButtonStartPosition, Ease.InBack);
 
+		MoveMenuButtons(MenuButtonStartPosition, Ease.InBack);
 		MoveSlideButtons(SlideButtonEndPosition, SlideButtonBackEndPosition, Ease.OutBack);
+		MoveSlideDots(SlideDotEndPosition, Ease.OutBack, 0.6f);
 
 		ScrollerContent.transform.DOLocalMoveX(-index*_screenWidth, 0f);
 
@@ -108,9 +114,10 @@ public class ApplicationHandler : MonoBehaviour
 
 		ShowButtons(_currentButtonScreenIndex);
 		ShowBanner();
-		MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack);
 
+		MoveMenuButtons(MenuButtonEndPosition, Ease.OutBack, 1f);
 		MoveSlideButtons(SlideButtonStartPosition, SlideButtonBackStartPosition, Ease.InBack);
+		MoveSlideDots(SlideDotStartPosition, Ease.InBack);
 
 		UntweenSlide(0, _timing, Ease.OutQuint);
 	}
@@ -155,7 +162,7 @@ public class ApplicationHandler : MonoBehaviour
 			_currentButtonScreenIndex++;
 
 			ShowButtons(_currentButtonScreenIndex);
-			ColorizeDots(_currentButtonScreenIndex);
+			ColorizeMenueDots(_currentButtonScreenIndex);
 		}
 		else
 		{
@@ -169,7 +176,7 @@ public class ApplicationHandler : MonoBehaviour
 			_currentButtonScreenIndex--;
 
 			ShowButtons(_currentButtonScreenIndex);
-			ColorizeDots(_currentButtonScreenIndex);
+			ColorizeMenueDots(_currentButtonScreenIndex);
 		}
 	}
 
@@ -237,13 +244,24 @@ public class ApplicationHandler : MonoBehaviour
 		SlideButtonBack.transform.DOLocalMoveX(slideBackPosition, _timing - 0.5f).SetEase(ease);
 	}
 
-	private void MoveMenuButtons(int position, Ease ease)
+	private void MoveMenuButtons(int position, Ease ease, float delay = 0f)
 	{
 		int i = 0;
 		foreach (GameObject element in MenuElements)
 		{
 			element.transform.DOKill();
-			element.transform.DOLocalMoveY(position, _timing - 1f).SetEase(ease).SetDelay(0.1f*i);
+			element.transform.DOLocalMoveY(position, _timing - 1f).SetEase(ease).SetDelay(delay + 0.1f*i);
+			i++;
+		}
+	}
+
+	private void MoveSlideDots(int position, Ease ease, float delay = 0f)
+	{
+		int i = 0;
+		foreach (GameObject element in SlideDots)
+		{
+			element.transform.DOKill();
+			element.transform.DOLocalMoveY(position, _timing - 1f).SetEase(ease).SetDelay(delay + 0.05f * i);
 			i++;
 		}
 	}
@@ -302,11 +320,26 @@ public class ApplicationHandler : MonoBehaviour
 		BannerTitle.DOFade(1, _timing).SetEase(Ease.OutQuint);
 	}
 
-	private void ColorizeDots(int index)
+	private void ColorizeMenueDots(int index)
 	{
 		foreach (GameObject element in MenuElements)
 		{
 			if (MenuElements.IndexOf(element) != index + 1)
+			{
+				element.GetComponent<Image>().DOColor(DotColor, 1);
+			}
+			else
+			{
+				element.GetComponent<Image>().DOColor(Color.white, 1);
+			}
+		}
+	}
+
+	private void ColorizeSlideDots()
+	{
+		foreach (GameObject element in SlideDots)
+		{
+			if (SlideDots.IndexOf(element) != _currentSlideIndex)
 			{
 				element.GetComponent<Image>().DOColor(DotColor, 1);
 			}
