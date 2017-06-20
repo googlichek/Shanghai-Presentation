@@ -10,9 +10,13 @@ public class ScrollRectSnap : MonoBehaviour
 	public Image[] ImageContainer;
 	public RectTransform Center;
 
-	private float[] _distanceToTheCenters;
-	private bool _dragging = false;
 	private int _distanceBetweenImages;
+
+	private float[] _distanceToTheCenters;
+	private float _dragStartPosition;
+	private float _dragEndPosition;
+
+	private bool _dragging = false;
 
 	private void Update()
 	{
@@ -54,12 +58,30 @@ public class ScrollRectSnap : MonoBehaviour
 
 	public void StartDrag()
 	{
+		_dragStartPosition = Input.mousePosition.x;
 		_dragging = true;
 	}
 
 	public void EndDrag()
 	{
+		_dragEndPosition = Input.mousePosition.x;
 		_dragging = false;
+	}
+
+	private void DetectSwipe()
+	{
+		if (_dragEndPosition - _dragStartPosition < 0 && CurrentImage >= 1)
+		{
+			CurrentImage--;
+			_dragStartPosition = 0;
+			_dragEndPosition = 0;
+		}
+		else if (_dragEndPosition - _dragStartPosition > 0 && CurrentImage <= ImageContainer.Length - 1)
+		{
+			CurrentImage++;
+			_dragStartPosition = 0;
+			_dragEndPosition = 0;
+		}
 	}
 
 	private void Prepare()

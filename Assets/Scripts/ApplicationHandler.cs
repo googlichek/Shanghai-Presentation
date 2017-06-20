@@ -84,9 +84,7 @@ public class ApplicationHandler : MonoBehaviour
 			return;
 		}
 
-		if (_currentSlideIndex != ScrollRectSnap.CurrentImage ||
-			_currentSlideIndex == 0 ||
-			_currentSlideIndex == Slides.Count -1)
+		if (_currentSlideIndex != ScrollRectSnap.CurrentImage)
 		{
 			_currentSlideIndex = ScrollRectSnap.CurrentImage;
 			HandleSlideArrows();
@@ -97,6 +95,7 @@ public class ApplicationHandler : MonoBehaviour
 	public void OpenSlide(int index)
 	{
 		_slideIsOpened = true;
+		ScrollRectSnap.CurrentImage = index;
 
 		HideButtons(_currentButtonScreenIndex);
 		HideBanner();
