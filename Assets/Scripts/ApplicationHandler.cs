@@ -84,7 +84,9 @@ public class ApplicationHandler : MonoBehaviour
 			return;
 		}
 
-		if (_currentSlideIndex != ScrollRectSnap.CurrentImage)
+		if (_currentSlideIndex != ScrollRectSnap.CurrentImage ||
+			_currentSlideIndex == 0 ||
+			_currentSlideIndex == Slides.Count -1)
 		{
 			_currentSlideIndex = ScrollRectSnap.CurrentImage;
 			HandleSlideArrows();

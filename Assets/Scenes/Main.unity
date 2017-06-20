@@ -2467,7 +2467,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 1.2
   m_Viewport: {fileID: 1075988939}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -5211,7 +5211,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1200, y: -85}
-  m_SizeDelta: {x: 37, y: 101}
+  m_SizeDelta: {x: 120, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &584153570
 MonoBehaviour:
@@ -6232,7 +6232,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1200, y: -85}
-  m_SizeDelta: {x: 36, y: 101}
+  m_SizeDelta: {x: 119, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &715315843
 MonoBehaviour:
@@ -10879,7 +10879,7 @@ MonoBehaviour:
   ScrollerContent: {fileID: 525693686}
   BannerBackground: {fileID: 2106891641}
   BannerTitle: {fileID: 469474556}
-  DotColor: {r: 0.3, g: 0.7, b: 0.7, a: 1}
+  DotColor: {r: 0.29411766, g: 0.75686276, b: 0.75686276, a: 1}
 --- !u!224 &1245792502
 RectTransform:
   m_ObjectHideFlags: 0
