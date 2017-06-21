@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class ScrollRectSnap : MonoBehaviour
 	private float _dragEndPosition;
 
 	private bool _dragging = false;
+	private bool _swiping = false;
 
 	private void Update()
 	{
@@ -34,25 +36,32 @@ public class ScrollRectSnap : MonoBehaviour
 
 		Prepare();
 
-		for (int i = 0; i < ImageContainer.Length; i++)
+		if (!_swiping)
 		{
-			_distanceToTheCenters[i] =
-				Mathf.Abs(Center.transform.position.x - ImageContainer[i].transform.position.x);
-		}
-
-		float minDistance = Mathf.Min(_distanceToTheCenters);
-
-		for (int i = 0; i < ImageContainer.Length; i++)
-		{
-			if (Math.Abs(minDistance - _distanceToTheCenters[i]) < 1)
+			for (int i = 0; i < ImageContainer.Length; i++)
 			{
-				CurrentImage = i;
+				_distanceToTheCenters[i] =
+					Mathf.Abs(Center.transform.position.x - ImageContainer[i].transform.position.x);
+			}
+
+			float minDistance = Mathf.Min(_distanceToTheCenters);
+
+			for (int i = 0; i < ImageContainer.Length; i++)
+			{
+				if (Math.Abs(minDistance - _distanceToTheCenters[i]) < 1)
+				{
+					CurrentImage = i;
+				}
+			}
+
+			if (!_dragging)
+			{
+				LerpToImage(CurrentImage * -_distanceBetweenImages);
 			}
 		}
-
-		if (!_dragging)
+		else
 		{
-			LerpToImage(CurrentImage * -_distanceBetweenImages);
+			DetectAndDoSwipe();
 		}
 	}
 
@@ -60,6 +69,7 @@ public class ScrollRectSnap : MonoBehaviour
 	{
 		_dragStartPosition = Input.mousePosition.x;
 		_dragging = true;
+		_swiping = true;
 	}
 
 	public void EndDrag()
@@ -68,19 +78,21 @@ public class ScrollRectSnap : MonoBehaviour
 		_dragging = false;
 	}
 
-	private void DetectSwipe()
+	private void DetectAndDoSwipe()
 	{
-		if (_dragEndPosition - _dragStartPosition < 0 && CurrentImage >= 1)
+		if (_dragEndPosition - _dragStartPosition < 0 && CurrentImage <= ImageContainer.Length - 1)
 		{
-			CurrentImage--;
 			_dragStartPosition = 0;
 			_dragEndPosition = 0;
+
+			StartCoroutine(DisableSwipeMode());
 		}
-		else if (_dragEndPosition - _dragStartPosition > 0 && CurrentImage <= ImageContainer.Length - 1)
+		else if (_dragEndPosition - _dragStartPosition > 0 && CurrentImage >= 0)
 		{
-			CurrentImage++;
 			_dragStartPosition = 0;
 			_dragEndPosition = 0;
+
+			StartCoroutine(DisableSwipeMode());
 		}
 	}
 
@@ -112,5 +124,11 @@ public class ScrollRectSnap : MonoBehaviour
 		Vector2 newPosition = new Vector2(newX, Panel.anchoredPosition.y);
 
 		Panel.anchoredPosition = newPosition;
+	}
+
+	private IEnumerator DisableSwipeMode()
+	{
+		yield return new WaitForSeconds(1);
+		_swiping = false;
 	}
 }
