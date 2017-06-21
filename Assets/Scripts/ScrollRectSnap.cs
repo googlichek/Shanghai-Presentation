@@ -120,7 +120,8 @@ public class ScrollRectSnap : MonoBehaviour
 
 	private void LerpToImage(int position)
 	{
-		float newX = Mathf.Lerp(Panel.anchoredPosition.x, position, Time.deltaTime*5f);
+		float time = Time.deltaTime * 5f;
+		float newX = Mathf.Lerp(Panel.anchoredPosition.x, position, time);
 		Vector2 newPosition = new Vector2(newX, Panel.anchoredPosition.y);
 
 		Panel.anchoredPosition = newPosition;
